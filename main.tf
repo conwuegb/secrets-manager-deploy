@@ -3,12 +3,12 @@ provider "aws" {
 }
 
 resource "aws_secretsmanager_secret" "secret_keys" {
-  for_each = var.secrets
+  for_each = var.secrets_map
   name     = each.key
 }
 
 resource "aws_secretsmanager_secret_version" "secret_values" {
-  for_each      = var.secrets
+  for_each      = var.secrets_map
   secret_id     = aws_secretsmanager_secret.secret_keys[each.key].id
   secret_string = jsonencode(each.value)
 }
